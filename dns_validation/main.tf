@@ -73,10 +73,7 @@ module "acm_only" {
 
   domain_name = local.domain_name
   subject_alternative_names = [
-    "*.alerts.separated.${local.domain_name}",
-    "new.sub.separated.${local.domain_name}",
-    "*.separated.${local.domain_name}",
-    "alerts.separated.${local.domain_name}",
+    local.domain_name,
   ]
 
   create_route53_records  = false
