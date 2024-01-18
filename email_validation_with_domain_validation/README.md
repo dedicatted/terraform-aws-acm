@@ -44,20 +44,20 @@ Note that this example may create resources which cost money. Run `terraform des
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_acm"></a> [acm](#module\_acm) | ../../ | n/a |
+| <a name="module_acm"></a> [acm](#module\_acm) | github.com/terraform-aws-modules/terraform-aws-acm | n/a |
 
 ## Resources
 
 | Name | Type |
 |------|------|
-| [aws_route53_zone.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route53_zone) | resource |
+| [aws_route53_zone.route53_zone](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/route53_zone) | data source |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_domain_name"></a> [domain\_name](#input\_domain\_name) | Domain name to use as Route53 zone and ACM certificate | `string` | n/a | yes |
-| <a name="input_validation_domain"></a> [validation\_domain](#input\_validation\_domain) | Domain name to use for verifying var.domain\_name | `string` | n/a | yes |
+| <a name="input_domain_name"></a> [domain\_name](#input\_domain\_name) | Domain name to use as Route53 zone and ACM certificate | `string` | `"example-domain-name.com"` | no |
+| <a name="input_route53_zone_name"></a> [route53\_zone\_name](#input\_route53\_zone\_name) | Route53 zone name for ACM certificate | `string` | `"example-domain-name.com"` | no |
 
 ## Outputs
 

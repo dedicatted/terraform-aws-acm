@@ -3,3 +3,8 @@ variable "domain_name" {
   type        = string
   default     = "example-domain-name.com"
 }
+variable "route53_zone_name" {
+  description = "Route53 zone name for ACM certificate"
+  type        = string
+  default     = "example-domain-name.com"
+}

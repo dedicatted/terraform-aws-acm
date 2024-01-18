@@ -5,6 +5,10 @@ locals {
   domain_name = trimsuffix(local.domain, ".")
 }
 
+data "cloudflare_zone" "route53_zone" {
+  name = var.route53_zone_name
+}
+
 module "acm" {
   source = "github.com/terraform-aws-modules/terraform-aws-acm"
 
@@ -14,7 +18,7 @@ module "acm" {
   }
 
   domain_name = local.domain_name
-  zone_id     = data.cloudflare_zone.this.id
+  zone_id     = data.cloudflare_zone.route53_zone.id
 
   subject_alternative_names = [
     local.domain_name,
@@ -32,7 +36,7 @@ module "acm" {
 resource "cloudflare_record" "validation" {
   count = length(module.acm.distinct_domain_names)
 
-  zone_id = data.cloudflare_zone.this.id
+  zone_id = data.cloudflare_zone.route53_zone.id
   name    = element(module.acm.validation_domains, count.index)["resource_record_name"]
   type    = element(module.acm.validation_domains, count.index)["resource_record_type"]
   value   = trimsuffix(element(module.acm.validation_domains, count.index)["resource_record_value"], ".")
@@ -40,8 +44,4 @@ resource "cloudflare_record" "validation" {
   proxied = false
 
   allow_overwrite = true
-}
-
-data "cloudflare_zone" "this" {
-  name = local.domain_name
 }

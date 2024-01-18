@@ -1,20 +1,23 @@
-resource "aws_route53_zone" "this" {
-  name = var.domain_name
+
+data "aws_route53_zone" "route53_zone" {
+  name         = var.route53_zone_name
+  private_zone = false
 }
+
 
 module "acm" {
   source = "github.com/terraform-aws-modules/terraform-aws-acm"
 
-  domain_name = aws_route53_zone.this.name
-  zone_id     = aws_route53_zone.this.zone_id
+  domain_name = var.domain_name
+  zone_id     = data.aws_route53_zone.route53_zone.id
 
   subject_alternative_names = [
-    aws_route53_zone.this.name,
+    var.domain_name,
   ]
 
   validation_method = "EMAIL"
 
   tags = {
-    Name = aws_route53_zone.this.name
+    Name = local.domain_name
   }
 }
